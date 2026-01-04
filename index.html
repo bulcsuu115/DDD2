@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>That's Not My Neighbor - Imposztor Vadász</title>
+    <link rel="icon" type="image/png"
+        href="https://frankodiszkont.hu/image/cache/catalog/1termekek/coccolino%201,8l%20blue-1000x1000.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Creepster&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="start-screen" class="screen">
+        <div class="title-container">
+            <h1 class="game-title">THAT'S NOT MY<br>NEIGHBOR</h1>
+            <p class="subtitle">D.D.D. - Doppelganger Detection Department</p>
+        </div>
+        <button id="start-btn" class="main-btn">MUNKAKEZDÉS</button>
+        <div class="instructions">
+            <p>Te vagy az új portás. A feladatod egyszerű:</p>
+            <p>Ellenőrizd a belépők igazolványait és szűrd ki az <span class="danger">IMPOSZTOROKÁT</span>.</p>
+            <p>Vigyázz! Ha beengedsz egy doppelgangert AKKOR Kakó, kalap kabát</p>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen hidden">
+        <div class="header">
+            <div class="day-info">
+                <span id="day-number">1. NAP</span>
+                <span id="time">08:00</span>
+            </div>
+            <div class="score-info">
+                <span>Helyes: <span id="correct-count">0</span></span>
+                <span>Hibás: <span id="wrong-count">0</span></span>
+            </div>
+        </div>
+
+        <div id="blackout-overlay"></div>
+        <div id="alarm-overlay"></div>
+        <div id="flashlight-overlay"></div>
+        <div id="dark-eyes"></div>
+
+        <div class="game-area">
+            <div class="visitor-window">
+
+                <div id="wall-crack"></div>
+                <div id="wall-crack-right"></div>
+                <div id="lamp-container">
+                    <img id="hanging-lamp-off" src="lampaoff.png" alt="Lámpa Kikapcsolva">
+                    <img id="hanging-lamp" src="lampa.png" alt="Lámpa Bekapcsolva">
+                </div>
+                <img src="disz.png" class="wall-decor" alt="Decoration">
+                <div class="right-wall-decor">
+                    <img src="documentum1.webp" alt="Doc 1">
+                    <img src="documentum2.webp" alt="Doc 2">
+                    <img src="documentum3.webp" alt="Doc 3">
+                </div>
+                <div class="window-frame">
+                    <div class="glass-pane">
+                        <div id="shutter"></div>
+                        <div id="blood-container"></div>
+                        <div id="visitor-container">
+                            <div class="visitor-image-wrapper">
+                                <img id="visitor-image" class="zoomable" src="" alt="Látogató">
+                            </div>
+                            <div id="visitor-speech" class="speech-bubble"></div>
+                        </div>
+                        <div id="no-visitor" class="no-visitor">
+                            <img id="starter-image" src="kezdokep.png" alt="Kezdőkép" class="starter-img">
+                            <p id="waiting-message" style="color: #000;">Várakozás a következő látogatóra...</p>
+                            <button id="next-visitor-btn" class="action-btn">START</button>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="document-slot">
+                        <img src="igazolvany.webp">
+                    </div>
+                </div>
+                <div class="bottom-menu">
+                    <div id="desk-overlay">
+                        <img id="mug" src="bogre.png" class="desk-item hidden">
+                        <img id="coffee-stain" src="kave.png" class="desk-item hidden">
+                        <img id="crumpled-paper" src="papir.png" class="desk-item hidden">
+                    </div>
+                    <div class="phone-btn-container">
+                        <button id="phone-btn" class="phone-btn" title="Lakás felhívása">
+                            <img src="telefon.png" alt="Telefon">
+                        </button>
+                        <div id="phone-menu" class="phone-menu hidden">
+                            <button id="call-self-btn" class="phone-menu-btn">Saját magam</button>
+                            <button id="call-roommate-btn" class="phone-menu-btn">Lakótárs</button>
+                            <button id="phone-menu-close" class="phone-menu-close">✕</button>
+                        </div>
+                    </div>
+                    <div id="question-buttons" class="question-buttons">
+                        <button class="question-btn" data-question="name">👤 Neve?</button>
+                        <button class="question-btn" data-question="apartment">🏠 Szoba?</button>
+                        <button class="question-btn" data-question="job">💼 Munkahely?</button>
+                        <button class="question-btn" data-question="birth">📅 Született?</button>
+                        <button class="question-btn" data-question="origin">🌍 Származás?</button>
+                    </div>
+                    <div class="decision-buttons-bottom">
+                        <button id="approve-btn" class="decision-btn-bottom approve" title="Beengedés" disabled>
+                            <img src="zold gomb.png" alt="Beenged">
+                        </button>
+                        <button id="deny-btn" class="decision-btn-bottom deny" title="Riasztás" disabled>
+                            <img src="piros gomb.png" alt="Riasztás">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="panel-section database">
+                    <h3>📋 LAKÓK NYILVÁNTARTÁSA</h3>
+                    <button id="registry-back-btn" class="action-btn hidden"
+                        style="width: 100%; margin-bottom: 10px; padding: 10px;">⬅ VISSZA</button>
+                    <div id="resident-list" class="resident-list"></div>
+                    <button id="ask-id-btn" class="action-btn" disabled
+                        style="width: 100%; margin-top: 15px;">IGAZOLVÁNYT
+                        KÉREK</button>
+                </div>
+
+                <div class="panel-section documents">
+                    <h3>📄 BEMUTATOTT IGAZOLVÁNY</h3>
+                    <div id="visitor-id" class="id-card hidden">
+                        <div class="id-header">SZEMÉLYI IGAZOLVÁNY</div>
+                        <div class="id-photo">
+                            <img id="id-photo-img" class="zoomable" src="" alt="Igazolvány fotó">
+                        </div>
+                        <div class="id-details">
+                            <p><strong>Név:</strong> <span id="id-name"></span></p>
+                            <p><strong>Azonosító:</strong> <span id="id-ticket"></span></p>
+                            <p><strong>Szoba:</strong> <span id="id-apartment"></span></p>
+                            <p><strong>Foglalkozás:</strong> <span id="id-job"></span></p>
+                            <p><strong>Születési év:</strong> <span id="id-birth"></span></p>
+                            <p><strong>Származás:</strong> <span id="id-origin"></span></p>
+                            <p><strong>Érvényes:</strong> <span id="id-expiry"></span></p>
+                        </div>
+                        <div id="id-stamp" class="id-stamp">D.D.D. JÓVÁHAGYOTT</div>
+                    </div>
+                    <p id="no-document" class="no-doc">Nincs bemutatott dokumentum</p>
+                </div>
+
+                <div class="panel-section xray-panel">
+                    <h3>☢️ X-RAY VIZSGÁLAT</h3>
+                    <div id="xray-result" class="xray-result hidden">
+                        <img id="xray-result-img" class="zoomable" src="" alt="X-ray eredmény">
+                    </div>
+                    <button id="xray-btn" class="action-btn" style="width: 100%; margin-top: 10px;">VIZSGÁLAT
+                        INDÍTÁSA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameover-screen" class="screen hidden">
+        <div id="blood-overlay"></div>
+        <div class="gameover-content">
+            <h1 id="gameover-title">GAME OVER</h1>
+            <div id="gameover-message"></div>
+            <div class="final-stats">
+                <p>Beengedett lakók: <span id="final-correct">0</span></p>
+                <p>Elfogott imposzterek: <span id="final-caught">0</span></p>
+                <p>Beengedett imposzterek: <span id="final-imposters">0</span></p>
+                <p>Hibás riasztások: <span id="final-false">0</span></p>
+            </div>
+            <button id="restart-btn" class="main-btn">ÚJRAKEZDÉS</button>
+        </div>
+    </div>
+
+    <div id="jumpscare" class="jumpscare hidden">
+        <img id="jumpscare-img" src="" alt="">
+    </div>
+
+    <div id="lightbox" class="lightbox hidden">
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Nagyított kép">
+            <button id="lightbox-close" class="lightbox-close">✕</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
